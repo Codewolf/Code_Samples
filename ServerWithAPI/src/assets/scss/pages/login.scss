@@ -1,0 +1,106 @@
+// COMPASS LIBRARY
+@import "compass/css3";
+// CORE
+@import "../variables/variable";
+@import "../variables/mixins";
+@import "../variables/functions";
+
+body, html {
+  background-color: $login-bg;
+  color: $login-fg;
+}
+
+section#login {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .login-wrapper {
+    width: 350px;
+    flex: 0 1 350px;
+    text-align: center;
+    .default-logo {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 60%;
+      margin-bottom: 20px;
+    }
+    #login-form {
+      background-color: lighten($new-body-bg, 10%);
+      & > * {
+        padding: 15px;
+      }
+      .form-header {
+        background-color: $social-spotify;
+        border-bottom: 10px solid darken($social-spotify, 5%);
+        color: $white;
+        &-container {
+          position: relative;
+          margin-top: 10px;
+          margin-bottom: 10px;
+          &:before {
+            content: "";
+            display: block;
+            height: 1px;
+            left: 0;
+            right: 0;
+            position: absolute;
+            top: 50%;
+            background-color: lighten($social-spotify, 10%);
+          }
+          .form-header-text {
+            margin: 0;
+            position: relative;
+            padding: 0 10px;
+            font-size: 24px;
+            background-color: $social-spotify;
+            font-weight: 400;
+            display: inline-block;
+          }
+        }
+      }
+      .form-body {
+        .form-group {
+          .input-group {
+            input, &-addon {
+              border-radius: 0;
+              background-color: $white;
+            }
+            input {
+              border-right: none;
+            }
+            &-addon {
+              i {
+                font-size: 22px;
+                line-height: 22px;
+              }
+              border-left: none;
+              padding-left: 0;
+              color: #B6B6B6;
+            }
+          }
+        }
+        .form-group:not(.has-feedback) {
+          .input-group {
+            input, &-addon {
+              border-color: $border-color;
+            }
+          }
+        }
+      }
+      .disclaimer {
+        font-size: 10px;
+        line-height: 10px;
+        background-color: darken($new-body-bg, 5%);
+      }
+    }
+  }
+  .form-footer {
+    text-align: right;
+    border-top: 1px solid $border-color;
+    margin: 15px 0;
+    padding: 15px 15px 0 15px;
+  }
+}

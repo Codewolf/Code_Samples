@@ -1,0 +1,64 @@
+{% set nosidebar=true %}
+{% extends "base.twig" %}
+{% block css %}
+    <link href="{{ versionize('/assets/css/pages/login.css') }}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <section id="login">
+        <div class="login-wrapper">
+            <img src="/assets/images/default_logo.svg" class="default-logo" alt="Logo">
+            <form class="login-form" id="login-form" method="post">
+                <div class="form-header">
+                    <div class="form-header-container">
+                        <h1 class="form-header-text">USER LOGIN</h1>
+                    </div>
+                </div>
+                <div class="form-body">
+                    <div class="form-group">
+                        <div class="input-group input-group-lg">
+                            <input type="text" class="form-control input-sm" name="username" id="username" autocomplete="off" placeholder="Email">
+                            <span class="input-group-addon">
+                            <i class="fa fa-user"></i>
+                        </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group input-group-lg">
+                            <input type="password" class="form-control input-sm" name="password" id="password" autocomplete="off" placeholder="Password">
+                            <span class="input-group-addon">
+                            <i class="fa fa-unlock"></i>
+                        </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group input-group-lg">
+                            <input type="text" class="form-control input-sm" name="authy-key" id="authy-key" autocomplete="off" placeholder="Token">
+                            <span class="input-group-addon">
+                            <i class="fa fa-key"></i>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-footer">
+                    <button type="button" class="btn btn-lg btn-block btn-default" id="btn-sign-in">
+                        <span>Login</span>
+                        <i class="fa fa-sign-in"></i>
+                    </button>
+                </div>
+                <div class="disclaimer">
+                    This software is for use by authorised personnel only.
+                    By using this system, all users acknowledge notice of, and agree to comply with,
+                    the Acceptable Use Policy.
+                    <br>
+                    <br>
+                    Unauthorized or improper use of this system may result in disciplinary
+                    action, civil charges/criminal penalties, and/or other sanctions.
+                    By continuing to use this system you indicate your awareness of and consent to these terms and conditions of use.
+                    LOG OFF AND CLOSE THE WINDOW IMMEDIATELY if you do not agree to the conditions stated in this warning.
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock %}
+{% block javascript %}
+    <script type="text/javascript" src="{{ versionize('/assets/js/pages/login.js') }}"></script> {% endblock %}

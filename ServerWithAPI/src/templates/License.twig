@@ -1,0 +1,206 @@
+{% extends "base.twig" %}
+{% block css %}
+    <link href="{{ versionize('/assets/css/pages/license.css') }}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    {% if page_action=='history' %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">License History</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <label for="clientHistory" class="control-label">Select Client<span class="fa fa-question-circle help-tooltip pl-10" data-toggle="tooltip" data-placement="top" data-html="true" title="Select which client you want to view."></span></label>
+                        <select id="clientHistory" placeholder="Client...">
+                            <option value=""></option>
+                            {% for client in clients %}
+                                <option value="{{ client.id }}" data-managed-by="{{ client.managed_by }}" data-client-id="{{ client.client_id }}">{{ client.client_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-xs-12 mt-15">
+                        <table id="licenseHistory" class="table table-striped animated" style="display: none;">
+                            <thead>
+                            <tr>
+                                <th>
+                                    Creation Date
+                                </th>
+                                <th class="hidden">
+                                    Creation Date ISO
+                                </th>
+                                <th>
+                                    Activation Date
+                                </th>
+                                <th class="hidden">
+                                    Activation Date ISO
+                                </th>
+                                <th>
+                                    Expiry Date
+                                </th>
+                                <th class="hidden">
+                                    Expiry Date ISO
+                                </th>
+                                <th>
+                                    Modules Installed
+                                </th>
+                                <th>
+                                    Valid IP Addresses
+                                </th>
+                                <th>
+                                    Valid Domains
+                                </th>
+                                <th>
+                                    License Key
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-lg btn-success mt-10" id="createLicense" style="display: none;"><i class="fa fa-plus pr-10"></i> New License</button>
+            </div>
+        </div>
+    {% else %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">License Details</h3>
+            </div>
+            <div class="panel-body">
+                <div id="licenseStatus" class="alert animated mt-10 mb-10" style="display: none;"></div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <label for="clients" class="control-label">Select Client<span class="fa fa-question-circle help-tooltip pl-10" data-toggle="tooltip" data-placement="top" data-html="true" title="Select which client you want to view."></span></label>
+                        <select id="clients" placeholder="Client...">
+                            <option value=""></option>
+                            {% for client in clients %}
+                                <option value="{{ client.id }}" data-managed-by="{{ client.managed_by }}" data-client-id="{{ client.client_id }}">{{ client.client_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <table id="licenseDetails" class="table animated" style="display: none;">
+                            <thead>
+                            <tr>
+                                <th colspan="2">
+                                    License Details
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="key-column">Created On:</td>
+                                <td id="license-created-date"></td>
+                            </tr>
+                            <tr>
+                                <td class="key-column">Activation Date:</td>
+                                <td id="license-activation-date"></td>
+                            </tr>
+                            <tr>
+                                <td class="key-column">Expiry Date</td>
+                                <td id="license-expiry-date"></td>
+                            </tr>
+                            <tr>
+                                <td class="key-column">Modules Installed</td>
+                                <td id="license-modules-installed"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-lg btn-success mt-10" id="createLicense" style="display: none;"><i class="fa fa-plus pr-10"></i> New License</button>
+            </div>
+        </div>
+        <div class="panel panel-default generation-panel" style="display:none;">
+            <div class="panel-heading">
+                <h3 class="panel-title">License Generation</h3>
+            </div>
+            <div class="panel-body">
+                <form id="generation-form" method="POST">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-3">
+                            <div class="form-group">
+                                <label for="activation-date">
+                                    Date Of License Start/Activation
+                                    <span class="fa fa-question-circle help-tooltip pl-10" data-toggle="tooltip" data-placement="top" data-html="true" title="This is when the license is active from."></span>
+                                </label>
+                                <div class="input-group">
+                                    <input type="text" name="activation-date" id="activation-date" class="form-control">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                                <input type="hidden" name="activation-date-iso" id="activation-date-iso">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-3">
+                            <div class="form-group">
+                                <label for="expiry-date">
+                                    Date Of License End/Expiry
+                                    <span class="fa fa-question-circle help-tooltip pl-10" data-toggle="tooltip" data-placement="top" data-html="true" title="This is when the license expires."></span>
+                                </label>
+                                <div class="input-group">
+                                    <input type="text" name="expiry-date" id="expiry-date" class="form-control">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                                <input type="hidden" name="expiry-date-iso" id="expiry-date-iso">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-3">
+                            <div class="form-group">
+                                <label for="referringIP">
+                                    Referring IP Addresses
+                                    <span class="fa fa-question-circle help-tooltip pl-10" data-toggle="tooltip" data-placement="top" data-html="true" title="This is a list of valid IP addresses for this license, one per line."></span>
+                                </label>
+                                <textarea id="referringIP" name="referringIP" class="form-control"></textarea>
+                                <span class="help-text mt-10"><i class="fa fa-question-circle help-tooltip pr-10"></i>This is a list of valid IP addresses for this license, each IP address should be on a new line.</span>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-3">
+                            <div class="form-group">
+                                <label for="referringDomain">
+                                    Referring Domain Names
+                                    <span class="fa fa-question-circle help-tooltip pl-10" data-toggle="tooltip" data-placement="top" data-html="true" title="This is a list of valid Domain names for this license, one per line."></span>
+                                </label>
+                                <textarea id="referringDomain" name="referringDomain" class="form-control"></textarea>
+                                <span class="help-text mt-10"><i class="fa fa-question-circle help-tooltip pr-10"></i>This is a list of valid Domain Names for this license, each domain should be on a new line.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label>
+                                Modules Installed
+                                <span class="fa fa-question-circle help-tooltip pl-10" data-toggle="tooltip" data-placement="top" data-html="true" title="Please Select active modules."></span>
+                            </label>
+                            <div class="modules-container">
+                                {% for module in modules %}
+                                    <div class="module-checkbox">
+                                        <input class="module-activate" id="module{{ loop.index }}" type="checkbox" name="moduleActive[]" value="{{ module.id }}">
+                                        <label for="module{{ loop.index }}">{{ module.description }}</label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-lg btn-primary mt-20" id="generateLicense"><i class="fa fa-file-code-o pr-10"></i> Generate License</button>
+                </form>
+            </div>
+        </div>
+        <div class="panel panel-default license-display-panel" style="display:none;">
+            <div class="panel-heading">
+                <h3 class="panel-title">License Key</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-xs-12 col-md-6" id="license-key">
+                </div>
+                <button type="button" class="btn btn-lg btn-success mt-10" id="emailLicense"><i class="fa fa-envelope-o pr-10"></i> Email License Key To Client</button>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+{% block javascript %}
+    <script type="text/javascript" src="{{ versionize('/assets/bower_components/datatables/media/js/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ versionize('/assets/bower_components/datatables/media/js/dataTables.bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ versionize('/assets/js/pages/license.js') }}"></script>
+{% endblock %}

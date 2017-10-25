@@ -1,0 +1,7 @@
+<FilesMatch ".+\.(ini|messages|php)">
+Order allow,deny
+Allow from all
+
+Require all granted
+Satisfy Any
+</FilesMatch>

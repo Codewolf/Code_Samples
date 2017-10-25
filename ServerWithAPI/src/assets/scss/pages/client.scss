@@ -1,0 +1,43 @@
+// COMPASS LIBRARY
+@import "compass/css3";
+// CORE
+@import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/variables";
+@import "../variables/variable";
+@import "../variables/mixins";
+@import "../variables/functions";
+
+.contact-row {
+  clear: both;
+  .remove-contact {
+    font-size: 32px;
+    padding-left: 15px;
+    cursor: pointer;
+    transition: all 0.5s linear;
+    &:hover {
+      color: $red;
+    }
+  }
+  .remove-details {
+    line-height: 32px;
+    float: right;
+    cursor: pointer;
+    transition: all 0.5s linear;
+    &:hover {
+      color: $red;
+    }
+  }
+  .contact-details-row label.error {
+    position: relative;
+    top: -15px;
+  }
+}
+
+.contacts-count {
+  cursor: pointer;
+  &:hover {
+    .show-contacts {
+      transition: all 0.5s linear;
+      color: $blue;
+    }
+  }
+}

@@ -1,0 +1,140 @@
+// COMPASS LIBRARY
+@import "compass/css3";
+// CORE
+@import "../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/variables";
+@import "variables/variable";
+@import "variables/mixins";
+@import "variables/functions";
+
+.panel {
+  background-color: lighten($body-bg, 10%);
+}
+
+.panel-default {
+  border-color: lighten($body-bg, 5%);
+  .panel-heading, .panel-footer {
+    background-color: lighten($body-bg, 5%);
+    color: $body-fg;
+    border-color: lighten($body-bg, 5%);
+  }
+}
+
+.btn-default {
+  color: $body-fg;
+  background-color: lighten($body-bg, 10%);
+  border-color: $border-color-pagination;
+  &:hover{
+    color: $body-fg;
+    background-color: $body-bg;
+  }
+}
+
+.modal-dialog {
+  border-color: lighten($body-bg, 5%);
+  .modal-header, .modal-footer {
+    background-color: lighten($body-bg, 5%);
+    color: $body-fg;
+    border-color: lighten($body-bg, 5%);
+  }
+  .modal-body {
+    background-color: $body-bg;
+  }
+}
+
+.pagination {
+  > li {
+    > a,
+    > span {
+      color: $body-fg;
+      background-color: lighten($body-bg, 15%);
+      border: 1px solid $border-color-pagination;
+    }
+  }
+  > li > a,
+  > li > span {
+    &:hover,
+    &:focus {
+      color: $body-fg;
+      background-color: lighten($body-bg, 20%);
+      border-color: 1px solid $border-color-pagination;
+    }
+  }
+
+  > .active > a,
+  > .active > span {
+    &,
+    &:hover,
+    &:focus {
+      color: $body-fg;
+      background-color: lighten($body-bg, 18%);
+      border-color: lighten($body-bg, 18%);
+    }
+  }
+
+  > .disabled {
+    > span,
+    > span:hover,
+    > span:focus,
+    > a,
+    > a:hover,
+    > a:focus {
+      color: $black-and-white;
+      background-color: lighten($body-bg, 10%);
+      border-color: $border-color-pagination;
+    }
+  }
+}
+
+.form-group {
+  &.has-error {
+    label.text-danger {
+      color: $brand-danger;
+    }
+  }
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: lighten($body-bg, 5%);
+}
+
+.input-group .form-control:first-child,
+.input-group-addon:first-child,
+.input-group-btn:first-child > .btn,
+.input-group-btn:first-child > .btn-group > .btn,
+.input-group-btn:first-child > .dropdown-toggle,
+.input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle),
+.input-group-btn:last-child > .btn-group:not(:last-child) > .btn {
+  border-top-left-radius: $padding-base-vertical;
+  border-bottom-left-radius: $padding-base-vertical;
+}
+
+.ui-datepicker-title {
+  select, input {
+    background-color: $sidebar-bg;
+  }
+}
+
+.sweet-alert {
+  h2 {
+    color: $black;
+  }
+}
+
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+textarea,
+select {
+  border-radius: $padding-base-vertical;
+}

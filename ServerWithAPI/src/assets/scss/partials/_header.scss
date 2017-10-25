@@ -1,0 +1,66 @@
+header#header {
+  position: fixed;
+  width: 100%;
+  height: $navbar-height;
+  z-index: 100;
+  background-color: $sidebar-bg;
+  border-bottom: 1px solid $sidebar-color;
+  .navbar-minimize {
+    float: left;
+    position: relative;
+    height: 100%;
+    width: $sidebar-width;
+    a {
+      display: block;
+      position: relative;
+      padding: 9px;
+      color: $sidebar-color;
+      float: right;
+      line-height: 20px;
+      i {
+        font-size: 30px;
+      }
+    }
+  }
+}
+
+.page-sidebar-minimize {
+  header#header {
+    .navbar-minimize {
+      text-align: center;
+      width: $sidebar-width-minimize;
+      a {
+        float: none;
+      }
+    }
+  }
+}
+
+.nav {
+  > li, .open {
+    > a {
+      color: lighten($sidebar-color, 35%);
+      &:hover, &:focus {
+        background-color: lighten($sidebar-bg, 5%);
+      }
+    }
+  }
+  .open {
+    > a {
+      background-color: lighten($sidebar-bg, 5%);
+    }
+    ul {
+      color: lighten($sidebar-color, 35%);
+      background-color: lighten($sidebar-bg, 5%);
+      a {
+        color: lighten($sidebar-color, 35%);
+        i {
+          margin-right: 10px;
+        }
+        &:hover, &:focus {
+          background-color: lighten($sidebar-bg, 5%);
+        }
+      }
+    }
+  }
+}

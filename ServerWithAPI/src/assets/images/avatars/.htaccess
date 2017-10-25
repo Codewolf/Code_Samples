@@ -1,0 +1,5 @@
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !=/favicon.ico
+RewriteRule ^(.*)$ avatar.php?uid=$1 [L,QSA]

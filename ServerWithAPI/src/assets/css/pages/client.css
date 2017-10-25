@@ -1,0 +1,2 @@
+.contact-row{clear:both}.contact-row .remove-contact{font-size:32px;padding-left:15px;cursor:pointer;transition:all 0.5s linear}.contact-row .remove-contact:hover{color:#E9573F}.contact-row .remove-details{line-height:32px;float:right;cursor:pointer;transition:all 0.5s linear}.contact-row .remove-details:hover{color:#E9573F}.contact-row .contact-details-row label.error{position:relative;top:-15px}.contacts-count{cursor:pointer}.contacts-count:hover .show-contacts{transition:all 0.5s linear;color:#00B1E1}
+/*# sourceMappingURL=client.css.map */

@@ -1,0 +1,13 @@
+**/vendor/
+**/cache
+.idea
+**/bower_components/
+**/.sass-cache
+**/uploads/
+**/logs/
+**/composer.lock
+**/*.zip
+build/*
+!build/*.xml
+.wakatime-project
+Database Resources

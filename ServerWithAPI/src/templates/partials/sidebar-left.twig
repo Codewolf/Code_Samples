@@ -1,0 +1,34 @@
+{% macro menu_links(links,level,badges,current_page) %}
+    {% import _self as macro %}
+    {% for link in links %}
+        {% if currentUser.hasRole(link.visible_to_roles) %}
+            <li class="{% if level==0 %}root-menu-item {% endif %}{% if link.children %}submenu {% endif %}{% if current_page == link.link|trim('/') or current_page in link.linkarray %}active{% endif %}">
+                <a href="{{ link.link?:'#' }}">
+                    <span class="icon"><i class="fa {{ link.icon }}"></i></span>
+                    <span class="text">{{ link.title }}{% if link.has_badge %}<span class="label label-primary pull-right rounded" data-toggle="tooltip" data-placement="top" data-title="{{ link.description }}" data-original-title="" title="">{{ badges[link.id] }}</span>{% endif %}</span>
+                    {% if link.children %}<span class="arrow"></span>{% endif %}
+                </a>
+                {% if link.children %}
+                    <ul>
+                        {{ macro.menu_links(link.children,level+1,badges,current_page) }}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+{% import _self as macro %}
+<nav id="sidebar-left">
+    <div class="media">
+        <a href="#">
+            <img src="/assets/images/avatars/{{ currentUser.getId }}?nc={{ "now"|date('U') }}" alt="{{ currentUser.getName("short") }}'s Profile Picture" class="user-avatar-image">
+        </a>
+        <div class="media-body">
+            <h4 class="media-heading">Hello, <span>{{ currentUser.getName("firstname") }}</span></h4>
+        </div>
+    </div>
+    <ul class="sidebar-menu">
+        {{ macro.menu_links(menuLinks,0,menuBadges,active_page) }}
+    </ul>
+
+</nav>

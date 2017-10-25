@@ -1,0 +1,197 @@
+// COMPASS LIBRARY
+@import "compass/css3";
+// CORE
+@import "../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/variables";
+@import "variables/variable";
+@import "variables/mixins";
+@import "variables/functions";
+@import 'partials/header';
+@import 'partials/sidebar-left';
+// PLUGIN OVERRIDES
+@import 'partials/select2';
+
+body, html {
+  background-color: $body-bg;
+  color: $body-fg;
+  a {
+    color: $body-fg;
+    &:hover {
+      color: darken($body-fg, 10%);
+    }
+  }
+}
+
+section#main:not(.nosidebar) {
+  padding-top: $navbar-height;
+  margin-left: $sidebar-width;
+  .page-content {
+    margin-bottom: 40px;
+    padding: 20px;
+    position: relative;
+  }
+}
+
+.page-sidebar-minimize {
+  section#main {
+    margin-left: $sidebar-width-minimize;
+  }
+}
+
+.help-tooltip {
+  color: $color-info;
+  cursor: help;
+}
+
+.help-text {
+  display: block;
+  font-size: 11px;
+  font-style: italic;
+  cursor: help;
+}
+
+textarea {
+  resize: none;
+}
+
+.asterisk {
+  color: $brand-danger;
+  &:before {
+    content: "*";
+  }
+}
+
+.select2-results {
+  color: #444444;
+}
+
+$padloop: 0;
+@while $padloop<=30 {
+  .pr-#{$padloop} {
+    padding-right: $padloop*1px;
+  }
+  .pl-#{$padloop} {
+    padding-left: $padloop*1px;
+  }
+  .pt-#{$padloop} {
+    padding-top: $padloop*1px;
+  }
+  .pb-#{$padloop} {
+    padding-bottom: $padloop*1px;
+  }
+  .pa-#{$padloop} {
+    padding: $padloop*1px;
+  }
+  .mr-#{$padloop} {
+    margin-right: $padloop*1px;
+  }
+  .ml-#{$padloop} {
+    margin-left: $padloop*1px;
+  }
+  .mt-#{$padloop} {
+    margin-top: $padloop*1px;
+  }
+  .mb-#{$padloop} {
+    margin-bottom: $padloop*1px;
+  }
+  .ma-#{$padloop} {
+    margin: $padloop*1px;
+  }
+  $padloop: $padloop+1;
+}
+
+form {
+  .form-group {
+    position: relative;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    .fileinput {
+      width: 100%;
+    }
+    .error {
+      display: none;
+      font-size: 12px;
+      font-style: italic;
+      color: $red;
+      + .help-block {
+        display: none;
+      }
+    }
+    &.no-padding {
+      .form-control-feedback {
+        right: 4px !important;
+      }
+    }
+    .control-label {
+      padding-top: 3px;
+      font-weight: 300;
+    }
+    &.has-feedback {
+      &.has-feedback-sm {
+        button.form-control-feedback {
+          width: 22px;
+          height: 22px;
+          font-size: 12px;
+          top: 4px;
+          right: 4px;
+        }
+      }
+      button.form-control-feedback {
+        top: 5px;
+        right: 5px;
+        width: 25px;
+        height: 25px;
+        line-height: 6px;
+        position: absolute;
+        pointer-events: auto !important;
+        &:before {
+          position: absolute;
+          left: 6px;
+          top: 8px;
+        }
+      }
+    }
+    @include has-color(primary, $color-primary);
+    @include has-color(info, $color-info);
+    @include has-color(success, $color-success);
+    @include has-color(warning, $color-warning);
+    @include has-color(error, $color-danger);
+    &.form-group-inline {
+      input, .help-inline {
+        display: inline-block;
+      }
+      input {
+        width: 75%;
+        margin-right: 5px;
+      }
+    }
+    &.form-group-divider {
+      background-color: $color-default-rgba;
+      padding: 0px;
+      margin-bottom: 0px;
+      .form-inner {
+        border-left: 5px solid darken($color-primary, 5%);
+        padding-left: 15px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        .label-circle {
+          display: inline !important;
+        }
+      }
+    }
+    &.form-footer {
+      background-color: $color-default;
+      margin-bottom: 0px;
+    }
+  }
+  .help-block, .help-inline {
+    font-size: 12px;
+    font-style: italic;
+    margin-bottom: 0px;
+  }
+  .form-footer {
+    text-align: right;
+    border-top: 1px solid $border-color;
+    margin: 15px -15px 0 -15px;
+    padding: 15px 15px 0 15px;
+  }
+}

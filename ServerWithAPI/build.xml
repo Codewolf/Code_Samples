@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="licencing" default="full-build" basedir=".">
+    <property name="phpcs" value="phpcs"/>
+    <property name="phpdox" value="phpdox"/>
+    <property name="phploc" value="phploc"/>
+    <property name="phpmd" value="phpmd"/>
+    <property name="phpcpd" value="phpcpd"/>
+    <property name="phpmetrics" value="phpmetrics"/>
+    <property name="phpunit" value="phpunit"/>
+
+    <target name="full-build"
+            depends="prepare,static-analysis,phpdox,metrics"
+            description="Performs static analysis, runs the tests, and generates project documentation"/>
+    <target name="static-analysis"
+            depends="phploc-ci,phpcs-ci,phpcs-html,phpmd,phpcpd-ci"
+            description="Performs static analysis"/>
+
+    <target name="clean"
+            unless="clean.done"
+            description="Cleanup build artifacts">
+        <delete dir="${basedir}/build/logs"/>
+        <delete dir="${basedir}/build/phpdox"/>
+        <delete dir="${basedir}/build/metrics"/>
+        <delete dir="${basedir}/build/coverage"/>
+        <property name="clean.done" value="true"/>
+    </target>
+
+    <target name="prepare"
+            unless="prepare.done"
+            depends="clean"
+            description="Prepare for build">
+        <mkdir dir="${basedir}/build/logs"/>
+        <mkdir dir="${basedir}/build/phpdox"/>
+        <mkdir dir="${basedir}/build/metrics"/>
+        <mkdir dir="${basedir}/build/coverage"/>
+        <property name="prepare.done" value="true"/>
+    </target>
+
+    <target name="phploc"
+            unless="phploc.done"
+            description="Measure project size using PHPLOC and print human readable output. Intended for usage on the command line.">
+        <exec executable="${phploc}" taskname="phploc">
+            <arg value="--exclude"/>
+            <arg value="vendor"/>
+            <arg value="--exclude"/>
+            <arg value="logs"/>
+            <arg value="--exclude"/>
+            <arg value="scratchpad"/>
+            <arg value="--exclude"/>
+            <arg value="plugins/bower_components"/>
+            <arg value="--exclude"/>
+            <arg value="build"/>
+            <arg path="${basedir}/src"/>
+        </exec>
+
+        <property name="phploc.done" value="true"/>
+    </target>
+
+    <target name="phploc-ci"
+            unless="phploc.done"
+            depends="prepare"
+            description="Measure project size using PHPLOC and log result in CSV and XML format. Intended for usage within a continuous integration environment.">
+        <exec executable="${phploc}" taskname="phploc">
+            <arg value="--exclude"/>
+            <arg value="vendor"/>
+            <arg value="--exclude"/>
+            <arg value="logs"/>
+            <arg value="--exclude"/>
+            <arg value="scratchpad"/>
+            <arg value="--exclude"/>
+            <arg value="plugins/bower_components"/>
+            <arg value="--exclude"/>
+            <arg value="installer"/>
+            <arg value="--exclude"/>
+            <arg value="build"/>
+            <arg value="--log-csv"/>
+            <arg path="${basedir}/build/logs/phploc.csv"/>
+            <arg value="--log-xml"/>
+            <arg path="${basedir}/build/logs/phploc.xml"/>
+            <arg path="${basedir}/src"/>
+        </exec>
+
+        <property name="phploc.done" value="true"/>
+    </target>
+
+    <target name="metrics" unless="metrics.done" depends="prepare"
+            description="Calculate software metrics using and log result in HTML format.">
+        <exec executable="${phpmetrics}" taskname="phpmetrics">
+            <arg value="--report-html=${basedir}/build/metrics/metrics.html"/>
+            <arg value="--report-xml=${basedir}/build/metrics/metrics.xml"/>
+            <arg path="${basedir}/src"/>
+        </exec>
+        <property name="metrics.done" value="true"/>
+    </target>
+
+    <target name="phpmd"
+            unless="phpmd.done"
+            description="Perform project mess detection using PHPMD and print human readable output. Intended for usage on the command line before committing.">
+        <exec executable="${phpmd}" taskname="phpmd">
+            <arg path="${basedir}/src"/>
+            <arg value="xml"/>
+            <arg value="codesize,design,unusedcode"/>
+            <arg value="--exclude"/>
+            <arg value="vendor,logs,build"/>
+            <arg value="--suffixes php"/>
+            <arg value="--reportfile-xml"/>
+            <arg path="${basedir}/build/logs/phpmd.xml"/>
+            <arg value="--reportfile-html"/>
+            <arg path="${basedir}/build/logs/phpmd.html"/>
+        </exec>
+
+        <property name="phpmd.done" value="true"/>
+    </target>
+
+    <target name="phpcpd" unless="phpcpd.done"
+            description="Find duplicate code using PHPCPD and print human readable output. Intended for usage on the command line before committing.">
+        <exec executable="${phpcpd}" taskname="phpcpd">
+            <arg value="--exclude=vendor"/>
+            <arg value="--exclude=logs"/>
+            <arg value="--exclude=scratchpad"/>
+            <arg value="--exclude=plugins/bower_components"/>
+            <arg value="--exclude=installer"/>
+            <arg value="--exclude=build"/>
+            <arg path="${basedir}/src"/>
+        </exec>
+        <property name="phpcpd.done" value="true"/>
+    </target>
+
+    <target name="phpcpd-ci" unless="phpcpd.done" depends="prepare"
+            description="Find duplicate code using PHPCPD and log result in XML format. Intended for usage within a continuous integration environment.">
+        <exec executable="${phpcpd}" taskname="phpcpd" output="${basedir}/build/logs/pmd-cpd.log">
+            <arg value="--log-pmd"/>
+            <arg path="${basedir}/build/logs/pmd-cpd.xml"/>
+            <arg value="--exclude=vendor"/>
+            <arg value="--exclude=logs"/>
+            <arg value="--exclude=scratchpad"/>
+            <arg value="--exclude=plugins/bower_components"/>
+            <arg value="--exclude=installer"/>
+            <arg value="--exclude=build"/>
+            <arg path="${basedir}/src"/>
+        </exec>
+        <property name="phpcpd.done" value="true"/>
+    </target>
+
+    <target name="pdepend" unless="pdepend.done" depends="prepare"
+            description="Calculate software metrics using PHP_Depend and log result in XML format. Intended for usage within a continuous integration environment.">
+        <exec executable="${pdepend}" taskname="pdepend">
+            <arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml"/>
+            <arg value="--summary-xml=${basedir}/build/logs/summary.xml"/>
+            <arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg"/>
+            <arg value="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg"/>
+            <arg value="--ignore=vendor,logs,scratchpad,/plugins/bower_components/,build"/>
+            <arg path="${basedir}/src"/>
+        </exec>
+        <property name="pdepend.done" value="true"/>
+    </target>
+
+    <target name="phpcs"
+            unless="phpcs.done"
+            description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
+        <exec executable="${phpcs}" taskname="phpcs">
+            <arg value="--report=checkstyle"/>
+            <arg value="--report-file=${basedir}/build/logs/checkstyle.xml"/>
+            <arg value="--standard=LicenseServer"/>
+            <arg value="--extensions=php"/>
+            <arg value="--ignore=*/vendor/*,*/logs/*,*/scratchpad/*,*/plugins/bower_components/*,build,*/installer/*"/>
+            <arg path="${basedir}/src"/>
+        </exec>
+
+        <property name="phpcs.done" value="true"/>
+    </target>
+
+    <target name="phpcs-html" unless="phpcs-html.done">
+        <xslt in="${basedir}/build/logs/checkstyle.xml"
+              out="${basedir}/build/logs/checkstyle.html"
+              style="${basedir}/transform.xsl"/>
+        <property name="phpcs-html.done" value="true"/>
+    </target>
+
+    <target name="phpcs-ci"
+            unless="phpcs.done"
+            depends="prepare"
+            description="Find coding standard violations using PHP_CodeSniffer and log result in XML format. Intended for usage within a continuous integration environment.">
+        <exec executable="${phpcs}" output="/dev/null" taskname="phpcs">
+            <arg value="--report=checkstyle"/>
+            <arg value="--report-file=${basedir}/build/logs/checkstyle.xml"/>
+            <arg value="--standard=LicenseServer"/>
+            <arg value="--extensions=php"/>
+            <arg value="--ignore=*/vendor/*,*/logs/*,*/scratchpad/*,*/plugins/bower_components/*,*/build/*,*/installer/*"/>
+            <arg path="${basedir}/src"/>
+        </exec>
+
+        <property name="phpcs.done" value="true"/>
+    </target>
+
+    <target name="phpdox"
+            unless="phpdox.done"
+            depends="phploc-ci,phpcs-ci,phpcpd-ci,phpmd,phpunit"
+            description="Generate project documentation using phpDox">
+        <exec executable="${phpdox}" dir="${basedir}" taskname="phpdox"/>
+        <property name="phpdox.done" value="true"/>
+    </target>
+
+    <target name="phpunit"
+            unless="phpunit.done"
+            depends="prepare"
+            description="Run unit tests with PHPUnit">
+        <exec executable="${phpunit}" resultproperty="result.phpunit" taskname="phpunit">
+            <arg value="--configuration"/>
+            <arg path="${basedir}/phpunit.xml"/>
+        </exec>
+
+        <property name="phpunit.done" value="true"/>
+    </target>
+
+    <target name="phpunit-no-coverage"
+            unless="phpunit.done"
+            depends="prepare"
+            description="Run unit tests with PHPUnit (without generating code coverage reports)">
+        <exec executable="${phpunit}" failonerror="true" taskname="phpunit">
+            <arg value="--configuration"/>
+            <arg path="${basedir}/phpunit.xml"/>
+            <arg value="--no-coverage"/>
+        </exec>
+
+        <property name="phpunit.done" value="true"/>
+    </target>
+</project>
+

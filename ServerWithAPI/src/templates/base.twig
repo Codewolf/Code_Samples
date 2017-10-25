@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]>
+<html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="Matt Nunn">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <link rel="apple-touch-icon-precomposed" href="/favicon.png">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Oswald:700,400" rel="stylesheet">
+    <link href="{{ versionize('/assets/css/reset.css') }}" rel="stylesheet">
+    <link href="{{ versionize('/assets/bower_components/bootstrap/dist/css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ versionize('/assets/bower_components/jquery-ui/themes/ui-darkness/jquery-ui.min.css') }}" rel="stylesheet">
+    <link href="{{ versionize('/assets/bower_components/fontawesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ versionize('/assets/bower_components/noty/lib/noty.css') }}" rel="stylesheet">
+    <link href="{{ versionize('/assets/bower_components/animate.css/animate.min.css') }}" rel="stylesheet">
+    <link href="{{ versionize('/assets/bower_components/select2/dist/css/select2.min.css') }}" rel="stylesheet">
+    <link href="{{ versionize('/assets/css/bootstrap-theme-override.css') }}" rel="stylesheet">
+    <link href="{{ versionize('/assets/bower_components/bootstrap-sweetalert/dist/sweetalert.css') }}" rel="stylesheet">
+    <link href="{{ versionize('/assets/bower_components/datatables/media/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ versionize('/assets/css/base.css') }}" rel="stylesheet">
+    {% block css %}{% endblock %}
+    <script src="{{ versionize('/assets/bower_components/moment/moment.js') }}"></script>
+</head>
+
+<body>
+<main>
+    {% if not nosidebar %}
+        <header id="header">
+            {% include "partials/header.twig" %}
+        </header>
+        <section id="sidebar-left">
+            {% include "partials/sidebar-left.twig" %}
+        </section>
+    {% endif %}
+    <section id="main" {% if nosidebar %}class="nosidebar"{% endif %}>
+        <div class="page-content">
+            {% block content %}{% endblock %}
+        </div>
+    </section>
+
+</main>
+{% block modals %}{% endblock %}
+<script src="{{ versionize('/assets/bower_components/jquery/dist/jquery.min.js') }}"></script>
+<script src="{{ versionize('/assets/bower_components/jquery-ui/jquery-ui.min.js') }}"></script>
+<script src="{{ versionize('/assets/bower_components/jquery-validation/dist/jquery.validate.js') }}"></script>
+<script src="{{ versionize('/assets/bower_components/noty/lib/noty.min.js') }}"></script>
+<script src="{{ versionize('/assets/bower_components/jquery.nicescroll/dist/jquery.nicescroll.min.js') }}"></script>
+<script src="{{ versionize('/assets/bower_components/select2/dist/js/select2.full.min.js') }}"></script>
+<script src="{{ versionize('/assets/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+<script src="{{ versionize('/assets/bower_components/jquery-autosize/dist/autosize.min.js') }}"></script>
+<script src="{{ versionize('/assets/js/jquery.sticky-kit.min.js') }}"></script>
+<script src="{{ versionize('/assets/bower_components/bootstrap-sweetalert/dist/sweetalert.min.js') }}"></script>
+<script src="{{ versionize('/assets/js/jquery.numberonly.min.js') }}"></script>
+<script src="{{ versionize('/assets/js/base.js') }}"></script>
+<script src="{{ versionize('/assets/js/global.js') }}"></script>
+
+{% block javascript %}{% endblock %}
+</body>
+</html>
